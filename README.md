@@ -20,7 +20,6 @@ All of the following is "for free" because this repository already has all of th
 - Kind mpriscella
 - Kubectl, Helm, and Minikube devcontainers
 - Python devcontainers
-- SQLite warrenbuckley
 
 
 ## 2. Create Kubernetes Cluster Using Kind 
@@ -165,15 +164,49 @@ http://localhost:8080/
 
 you should see the Kubeflow Pipelines UI
 
+## Google Cloud SDK
 
-## 5. Generate Pipeline yaml File
+When you're doing a "local deployment" (using something like "kind" or "minikube") - you shouldn't need Google Cloud SDK installed.
+
+Although not specified in the instructions - if you attempt to run a pipeline without Google Cloud SDK installed - the pipeline will "stall" - in the test I did it was on the "Preprocess & Transform" stage.  When you run the following:
+
+```
+kfp diagnose_me
+```
+
+You'll see:
+
+```
+Google Cloud SDK is not installed, gcloud, gsutil and kubectl are required for this app to run. Please follow instructions at https://cloud.google.com/sdk/install to install the SDK.
+```
+
+## Create Pipeline
 
 Sync to this repository (git clone):
 
 https://github.com/kubeflow/pipelines
 
-Just sync to the above - then navigate to this directory:
+### Core Sample (sequential)
+
+Navigate to this directory:
+
+```
+kubeflow/pipelines
+```
+
+and run:
+
+```
+dsl-compile --py samples/core/sequential/sequential.py --output samples/core/sequential/sequential.tar.gz
+```
+
+### Pytorch
+
+After you have cloned "kubeflow/pipelines" - navigate to this directory:
+
+```
 kubeflow/pipelines/samples/contrib/pytorch-samples
+```
 
 you can either run this script:
 
@@ -210,15 +243,21 @@ python3 cifar10/pipeline.py
 or
 
 ```
-python3 cifar10/pipeline.py
+python3 bert/pipeline.py
 ```
 
-## 5. Setup Python
+Despite the instructions in the pytorch samples - it seems that you need to generate a compressed archive as mentioned here:
+
+https://www.kubeflow.org/docs/components/pipelines/v1/tutorials/build-pipeline/
+
+So run
+
+```
+dsl-compile --py ./cifar10/pipeline.py --output ./test.tar.gz
+```
 
 
-
-
-
+## Random Python Troubleshooting
 
 You'll need the kubeflow pipeline package:
 

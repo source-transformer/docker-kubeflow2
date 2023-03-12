@@ -256,8 +256,33 @@ So run
 dsl-compile --py ./cifar10/pipeline.py --output ./test.tar.gz
 ```
 
+## General Trouble-Shooting
 
-## Random Python Troubleshooting
+### Port Connection/Forwarding Not Working
+
+If you get an error like the following:
+
+```
+E0312 21:41:46.168970   20897 memcache.go:238] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+```
+
+Try blowing away the cluster created by kind - i.e.:
+
+```
+kind delete cluster
+```
+
+which should output:
+
+```
+Deleting cluster "kind" ...
+```
+
+Then recreate it using the "create" command.
+
+
+### Random Python Troubleshooting
 
 You'll need the kubeflow pipeline package:
 
